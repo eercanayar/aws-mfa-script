@@ -23,9 +23,10 @@ fi
 
 # 1 or 2 args ok
 if [[ $# -ne 1 && $# -ne 2 ]]; then
-  echo "Usage: $0 <MFA_TOKEN_CODE> <AWS_CLI_PROFILE>"
+  echo "Usage: $0 <MFA_TOKEN_CODE> <ACCESS_DURATION> <AWS_CLI_PROFILE>"
   echo "Where:"
   echo "   <MFA_TOKEN_CODE> = Code from virtual MFA device"
+  echo "   <ACCESS_DURATION> = Duration in minutes"
   echo "   <AWS_CLI_PROFILE> = aws-cli profile usually in $HOME/.aws/config"
   exit 2
 fi
@@ -37,8 +38,8 @@ if [ ! -r ~/mfa.cfg ]; then
 fi
 
 AWS_CLI_PROFILE=${3:-default}
-ACCESS_DURATION=${2:480}
-ACCESS_DURATION=ACCESS_DURATION*60
+ACCESS_DURATION=${2:-480}
+let ACCESS_DURATION='ACCESS_DURATION*60'
 
 MFA_TOKEN_CODE=$1
 ARN_OF_MFA=$(grep "^$AWS_CLI_PROFILE" ~/mfa.cfg | cut -d '=' -f2- | tr -d '"')
