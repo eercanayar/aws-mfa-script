@@ -4,4 +4,4 @@ setToken() {
     source ~/.token_file
     echo "Your creds have been set in your env."
 }
-alias mfa=setToken
+alias awsmfa=setToken
